@@ -1,9 +1,12 @@
 import pymongo
 import os
+if os.path.exists("env.py"):
+    import env
 
-MONGODB_URI = os.getenv("MONGO_URI")
-DBS_NAME = "mytestdb"
-COLLECTION_NAME = "myFirstMDB"
+MONGODB_URI = os.environ.get("MONGO_URI")
+DBS_NAME = "myTestDB"
+COLLECTION = "myFirstMDB"
+
 
 def mongo_connect(url):
     try:
@@ -13,9 +16,10 @@ def mongo_connect(url):
     except pymongo.errors.ConnectionFailure as e:
         print("Could not connect to MongoDB: %s") % e
         
+
 conn = mongo_connect(MONGODB_URI)
 
-coll = conn[DBS_NAME][COLLECTION_NAME]
+coll = conn[DBS_NAME][COLLECTION]
 
 documents = coll.find()
 
